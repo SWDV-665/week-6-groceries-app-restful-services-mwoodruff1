@@ -2,7 +2,35 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonList,
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab3.css';
 
+function removeItem(item: any, list: any){
+  console.log("Removing Item:", item);
+  for (let i = 0; i < list.length; i++){
+    let obj = JSON.parse(list[i]);
+    if(obj.name == item){
+      list.pop(i);
+      return list
+    }
+  }
+}
+
+function addItem(item: any, itemAmount: number, list: any){
+  console.log("Adding Item:", item);
+  var data = {
+    "name": item,
+    "amount": itemAmount
+  }
+  list.push(data)
+  return list
+}
+
+
+
 const Tab3: React.FC = () => {
+
+
+
+
+
   return (
     <IonPage>
       <IonHeader>
