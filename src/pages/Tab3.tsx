@@ -1,6 +1,25 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonList, IonLabel, IonListHeader } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonList,IonItemSliding, IonLabel, IonListHeader, IonItemOptions, IonItemOption, IonIcon } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
+import {trash} from 'ionicons/icons';
 import './Tab3.css';
+
+var data = [
+  {
+    name: "Bread",
+    amount: 4
+  },
+  {
+    name: "Milk",
+    amount: 3
+  },
+  {
+    name: "Sports Bras",
+    amount: 1
+  }
+
+]
+
+
 
 function removeItem(item: any, list: any){
   console.log("Removing Item:", item);
@@ -26,11 +45,6 @@ function addItem(item: any, itemAmount: number, list: any){
 
 
 const Tab3: React.FC = () => {
-
-
-
-
-
   return (
     <IonPage>
       <IonHeader>
@@ -49,18 +63,24 @@ const Tab3: React.FC = () => {
         <IonLabel>Item</IonLabel>
         <IonLabel>Amount</IonLabel>
       </IonListHeader>
-      <IonItem>
-        <IonLabel>Bannana</IonLabel>
-        <IonLabel>3</IonLabel>
-      </IonItem>
-      <IonItem>
-        <IonLabel>Bread</IonLabel>
-        <IonLabel>2</IonLabel>
-      </IonItem>
-      <IonItem>
-        <IonLabel>Scrunchies</IonLabel>
-        <IonLabel>4</IonLabel>
-      </IonItem>
+      {
+        data.map(({name, amount}) => (
+          <IonItemSliding>
+            <IonItem>
+              <IonLabel>{name}</IonLabel>
+              <IonLabel>{amount}</IonLabel>
+            </IonItem>
+            <IonItemOptions side="end">
+              <IonItemOption onClick={() => removeItem({name}, data)} color="danger">
+              <IonIcon slot="end" icon={trash} />
+              Delete
+              </IonItemOption>
+            </IonItemOptions>
+          </IonItemSliding>
+        ))
+      }
+
+
     </IonList>
       </IonContent>
     </IonPage>

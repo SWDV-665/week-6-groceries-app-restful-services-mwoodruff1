@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
+    "jsx": "react",
       "dom",
       "dom.iterable",
       "esnext"
