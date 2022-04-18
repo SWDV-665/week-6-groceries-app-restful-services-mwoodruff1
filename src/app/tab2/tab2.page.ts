@@ -4,6 +4,9 @@ import { ToastController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { GroceriesServiceService } from '../groceries-service.service';
 import { InputDialogService } from '../input-dialog.service';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
+
+
 
 @Component({
   selector: 'app-tab2',
@@ -16,7 +19,7 @@ export class Tab2Page {
 
   
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public alertCtrl: AlertController, public dataService: GroceriesServiceService, public inputDialogService: InputDialogService) {}
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public alertCtrl: AlertController, public dataService: GroceriesServiceService, public inputDialogService: InputDialogService, public socialShring: SocialSharing) {}
 
   loadItems() {
     return this.dataService.getItems();
@@ -32,6 +35,25 @@ export class Tab2Page {
 
     this.dataService.removeItem(index);  
   }
+
+  async shareItem(item, index) {
+    console.log("Sharing Item: ", item, index);
+    const toast = await this.toastCtrl.create({
+      message: 'Sharing Item: ' + index,
+      duration: 3000
+    });
+    toast.present();
+    let message = "Grocery Item: " + item.name + " Quantity: " + item.quantity;
+    let subject = "Shared via Groceries";
+    this.socialShring.share(message, subject).then(() => {
+      console.log("Shared Successfully")
+    }).catch((error) => {
+      console.log(error)
+
+    });
+     
+  }
+
   async editItem(item, index) {
     console.log("Edit Item ", item, index);
     const toast = await this.toastCtrl.create({
