@@ -16,23 +16,28 @@ import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 export class Tab2Page {
 
   title = "Grocery";
-
+  items = []
+  errorMessage: string;
   
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public alertCtrl: AlertController, public dataService: GroceriesServiceService, public inputDialogService: InputDialogService, public socialShring: SocialSharing) {}
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public alertCtrl: AlertController, public dataService: GroceriesServiceService, public inputDialogService: InputDialogService, public socialShring: SocialSharing) {
+    dataService.dataChanged$.subscribe((dataChanged: boolean) => {
+      this.loadItems();
+    })
+  }
+
+  ionViewDidLoad(){
+    this.loadItems();
+  }
 
   loadItems() {
-    return this.dataService.getItems();
+    this.dataService.getItems().subscribe(
+      items => this.items = items,
+      error => this.errorMessage = <any>error
+    );
   }  
 
   async removeItem(item, index) {
-    console.log("Removing Item: ", item, index);
-    const toast = await this.toastCtrl.create({
-      message: 'Removing Item: ' + index,
-      duration: 3000
-    });
-    toast.present();
-
     this.dataService.removeItem(index);  
   }
 
